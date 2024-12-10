@@ -1,0 +1,93 @@
+class Item:
+    def __init__(self, item_id, name, quantity, price):
+        self.item_id = item_id
+        self.name = name
+        self.quantity = quantity
+        self.price = price
+
+    def __str__(self):
+        return f"ID: {self.item_id}, Name: {self.name}, Quantity: {self.quantity}, Price: ${self.price:.2f}"
+
+class Inventory:
+    def __init__(self):
+        self.items = {}  # Dictionary to store items with item_id as key
+
+    def add_item(self, item_id, name, quantity, price):
+        if item_id in self.items:
+            print(f"Item ID {item_id} already exists.")
+        else:
+            self.items[item_id] = Item(item_id, name, quantity, price)
+            print(f"Item {name} added successfully!")
+
+    def remove_item(self, item_id):
+        if item_id in self.items:
+            del self.items[item_id]
+            print(f"Item with ID {item_id} removed successfully.")
+        else:
+            print(f"Item with ID {item_id} not found.")
+
+    def update_item(self, item_id, quantity=None, price=None):
+        if item_id in self.items:
+            if quantity is not None:
+                self.items[item_id].quantity = quantity
+            if price is not None:
+                self.items[item_id].price = price
+            print(f"Item with ID {item_id} updated successfully.")
+        else:
+            print(f"Item with ID {item_id} not found.")
+
+    def display_inventory(self):
+        if not self.items:
+            print("Inventory is empty.")
+        else:
+            print("\nInventory Details:")
+            for item in self.items.values():
+                print(item)
+
+def main():
+    inventory = Inventory()
+
+    while True:
+        print("\nInventory Management System")
+        print("1. Add Item")
+        print("2. Remove Item")
+        print("3. Update Item")
+        print("4. Display Inventory")
+        print("5. Exit")
+        
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            item_id = input("Enter item ID: ")
+            name = input("Enter item name: ")
+            quantity = int(input("Enter item quantity: "))
+            price = float(input("Enter item price: $"))
+            inventory.add_item(item_id, name, quantity, price)
+
+        elif choice == '2':
+            item_id = input("Enter item ID to remove: ")
+            inventory.remove_item(item_id)
+
+        elif choice == '3':
+            item_id = input("Enter item ID to update: ")
+            print("Leave a field empty if you do not want to update it.")
+            quantity = input("Enter new quantity: ")
+            price = input("Enter new price: $")
+
+            quantity = int(quantity) if quantity else None
+            price = float(price) if price else None
+
+            inventory.update_item(item_id, quantity, price)
+
+        elif choice == '4':
+            inventory.display_inventory()
+
+        elif choice == '5':
+            print("Exiting Inventory Management System.")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
